@@ -1,22 +1,17 @@
 # BGA Rework Station
 
-This repository contains the firmware and necessary documentation for a BGA (Ball Grid Array) rework station based on the ESP32-C3 microcontroller. The rework station utilizes a WG12864B (ST7920) LCD Display for user interface and a MAX6675 Type-K Thermocouple Amplifier for temperature sensing.
+This repository contains the firmware and necessary documentation for a BGA (Ball Grid Array) rework station based on the ESP32-C3 microcontroller. The rework station utilizes a SSD1309 128x64 OLED Display for user interface and a MAX6675 Type-K Thermocouple Amplifier for temperature sensing.
 
 ## Features
 
 - Precise temperature control for BGA rework operations.
-- User-friendly interface displayed on the WG12864B LCD.
+- User-friendly interface displayed on the SSD1309 128x64 OLED Display.
 - Real-time temperature monitoring with MAX6675 Type-K Thermocouple Amplifier.
 - Adjustable temperature settings for different soldering needs.
-
 
 ## Installation
 
 1. Clone this repository:
-
-    ```
-    git clone https://github.com/yourusername/bga-rework-station.git
-    ```
 
 2. Open the project directory in PlatformIO.
 
