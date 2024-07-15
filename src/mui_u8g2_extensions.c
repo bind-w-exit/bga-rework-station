@@ -1,44 +1,7 @@
 #include "mui_u8g2_extensions.h"
+#include "stdio.h"
 
 #define MUI_U8G2_V_PADDING 1
-
-uint8_t mui_u8g2_ex_draw_temp(mui_t *ui, uint8_t msg)
-{
-  uint8_t *value = (uint8_t *)muif_get_data(ui->uif);
-  char text[30]; // Adjust the size as per your requirement
-
-  switch (msg)
-  {
-  case MUIF_MSG_DRAW:
-    sprintf(text, "%s %d", ui->text, *value);
-
-    u8g2_t *u8g2 = mui_get_U8g2(ui);
-    u8g2_SetFontDirection(u8g2, 1);
-    u8g2_DrawUTF8(mui_get_U8g2(ui), mui_get_x(ui), mui_get_y(ui), text);
-
-    u8g2_SetFontDirection(u8g2, 0);
-    break;
-  case MUIF_MSG_FORM_START:
-    break;
-  case MUIF_MSG_FORM_END:
-    break;
-  case MUIF_MSG_CURSOR_ENTER:
-    break;
-  case MUIF_MSG_CURSOR_SELECT:
-    break;
-  case MUIF_MSG_VALUE_INCREMENT:
-    break;
-  case MUIF_MSG_VALUE_DECREMENT:
-    break;
-  case MUIF_MSG_CURSOR_LEAVE:
-    break;
-  case MUIF_MSG_TOUCH_DOWN:
-    break;
-  case MUIF_MSG_TOUCH_UP:
-    break;
-  }
-  return 0;
-}
 
 void mui_u8g2_ex_draw_button_utf(mui_t *ui, u8g2_uint_t flags, u8g2_uint_t width, u8g2_uint_t padding_h, u8g2_uint_t padding_v, const char *text)
 {
@@ -70,7 +33,7 @@ void mui_u8g2_ex_draw_button_utf(mui_t *ui, u8g2_uint_t flags, u8g2_uint_t width
   }
   else
   {
-    u8g2_DrawButtonUTF8(mui_get_U8g2(ui), mui_get_x(ui), mui_get_y(ui), flags, width, padding_h, padding_v, text);
+    u8g2_DrawButtonUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), flags, width, padding_h, padding_v, text);
   }
 }
 
@@ -128,6 +91,116 @@ uint8_t mui_u8g2_ex_u8_opt_line_wa_mud_pi(mui_t *ui, uint8_t msg)
       (*value)--;
       return 1;
     }
+    break;
+  }
+  return 0;
+}
+
+uint8_t mui_u8g2_ex_double_draw_temp(mui_t *ui, uint8_t msg)
+{
+  double *value = (double *)muif_get_data(ui->uif);
+  if (value == NULL)
+  {
+    return 0; // Return early if value is null
+  }
+  char text[6];
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+
+  switch (msg)
+  {
+  case MUIF_MSG_DRAW:
+    sprintf(text, "%.2f", *value);
+    u8g2_DrawUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), text);
+    break;
+  case MUIF_MSG_FORM_START:
+    break;
+  case MUIF_MSG_FORM_END:
+    break;
+  case MUIF_MSG_CURSOR_ENTER:
+    break;
+  case MUIF_MSG_CURSOR_SELECT:
+    break;
+  case MUIF_MSG_VALUE_INCREMENT:
+    break;
+  case MUIF_MSG_VALUE_DECREMENT:
+    break;
+  case MUIF_MSG_CURSOR_LEAVE:
+    break;
+  case MUIF_MSG_TOUCH_DOWN:
+    break;
+  case MUIF_MSG_TOUCH_UP:
+    break;
+  }
+  return 0;
+}
+
+uint8_t mui_u8g2_ex_double_draw_temp_angle(mui_t *ui, uint8_t msg)
+{
+  double *value = (double *)muif_get_data(ui->uif);
+  if (value == NULL)
+  {
+    return 0; // Return early if value is null
+  }
+  char text[3];
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+
+  switch (msg)
+  {
+  case MUIF_MSG_DRAW:
+    sprintf(text, "%s %.2f", ui->text, *value);
+    u8g2_SetFontDirection(u8g2, 1);
+
+    u8g2_DrawUTF8(u8g2, mui_get_x(ui), mui_get_y(ui), text);
+    u8g2_SetFontDirection(u8g2, 0);
+    break;
+  case MUIF_MSG_FORM_START:
+    break;
+  case MUIF_MSG_FORM_END:
+    break;
+  case MUIF_MSG_CURSOR_ENTER:
+    break;
+  case MUIF_MSG_CURSOR_SELECT:
+    break;
+  case MUIF_MSG_VALUE_INCREMENT:
+    break;
+  case MUIF_MSG_VALUE_DECREMENT:
+    break;
+  case MUIF_MSG_CURSOR_LEAVE:
+    break;
+  case MUIF_MSG_TOUCH_DOWN:
+    break;
+  case MUIF_MSG_TOUCH_UP:
+    break;
+  }
+  return 0;
+}
+
+uint8_t mui_hrule(mui_t *ui, uint8_t msg)
+{
+  u8g2_t *u8g2 = mui_get_U8g2(ui);
+
+  switch (msg)
+  {
+  case MUIF_MSG_DRAW:
+    u8g2_DrawHLine(u8g2, 0, mui_get_y(ui), u8g2_GetDisplayWidth(u8g2));
+    break;
+  case MUIF_MSG_FORM_START:
+    break;
+  case MUIF_MSG_FORM_END:
+    break;
+  case MUIF_MSG_CURSOR_ENTER:
+    break;
+  case MUIF_MSG_CURSOR_SELECT:
+    break;
+  case MUIF_MSG_VALUE_INCREMENT:
+    break;
+  case MUIF_MSG_VALUE_DECREMENT:
+    break;
+  case MUIF_MSG_CURSOR_LEAVE:
+    break;
+  case MUIF_MSG_TOUCH_DOWN:
+    break;
+  case MUIF_MSG_TOUCH_UP:
     break;
   }
   return 0;
