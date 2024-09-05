@@ -41,7 +41,23 @@ void HeaterElement::updateCurrentTemperature()
     if (currentTime - lastReadTime >= readTemperatureInterval)
     {
         lastReadTime = currentTime;
-        thermoCouple.read();
+        uint8_t status = thermoCouple.read();
+
+        if (status != STATUS_OK)
+        {
+            handleThermocoupleError(status);
+            errorCount++;
+
+            if (errorCount >= maxErrorCount)
+            {
+                Serial.println("Too many errors, disabling heater.");
+                setHeaterEnabled(false);
+            }
+            return;
+        }
+
+        // Reset error count on successful read
+        errorCount = 0;
 
         double newTemperature = thermoCouple.getTemperature();
         if (newTemperature != currentTemperature)
@@ -94,4 +110,26 @@ double HeaterElement::getCurrentTemperature() const
 void HeaterElement::onTemperatureChange(TemperatureChangeCallback callback)
 {
     temperatureChangeCallback = callback;
+}
+
+void HeaterElement::handleThermocoupleError(uint8_t status) const
+{
+    switch (status)
+    {
+        case 0:
+            // No error, everything is OK
+            break;
+        case STATUS_ERROR:
+            Serial.println("Error: Thermocouple short to VCC. Please check the wiring.");
+            break;
+        case STATUS_NOREAD:
+            Serial.println("Error: No temperature read done yet. Please check the wiring.");
+            break;
+        case STATUS_NO_COMMUNICATION:
+            Serial.println("Error: No communication with thermocouple. Please check the wiring.");
+            break;
+        default:
+            Serial.println("Unknown thermocouple error.");
+            break;
+    }
 }

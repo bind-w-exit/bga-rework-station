@@ -19,6 +19,7 @@ public:
     void setHeaterEnabled(bool enabled);
     bool isHeaterEnabled() const;
     double getCurrentTemperature() const;
+    void handleThermocoupleError(uint8_t status) const;
 
     void onTemperatureChange(TemperatureChangeCallback callback);
     
@@ -34,6 +35,8 @@ private:
     double targetTemperature = 0.0;
     double output = 0.0;
     bool heaterEnabled = true;
+    uint8_t errorCount = 0;
+    const uint8_t maxErrorCount = 5;
 
     TemperatureChangeCallback temperatureChangeCallback;
 
